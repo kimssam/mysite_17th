@@ -13,12 +13,14 @@ import lombok.RequiredArgsConstructor;
 public class QuestionController {
 	
 	private final QuestionRepository questionRepository;
+	private final QuestionService questionService;
 	
 	//localhost:8080/question/list 이 요청이 오면 게시판 목록 페이지가 떠야 한다!
 	
 	@GetMapping("/question/list")
 	public String list(Model model) {
-		List<Question> questionList = this.questionRepository.findAll();
+//		List<Question> questionList = this.questionRepository.findAll();
+		List<Question> questionList = this.questionService.getList();
 		model.addAttribute("questionList", questionList);
 		
 		return "question_list";
