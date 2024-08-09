@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+	<link rel="stylesheet" th:href="@{/mystyle.css}" />
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+<div class="container">
+		<div class="jumbotron">
+			<div class="display-4">[[${question.subject}]]</div>
+		</div>
+		<div class="card bg-warning">
+			<div class="card-body">
+				<h5 class="card-title text-white">[[${question.content}]]</h5>
+			</div>
+		</div>
+		
+		<h4 th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|" class="my-5"></h4>
+		<!-- ${#lists.size()는 타임리프에서 제공하는 문법으로 매개변수로 객체를 넣으면 해당 객체의 갯수를 리턴한다. -->
+		
+		<div>
+			<ul class="list-unstyled">
+				<div class="card bg-light my-3"  th:each="answer : ${question.answerList}">
+					<div class="card-body">
+						<li>[[${answer.content}]]</li>
+					</div>
+				</div>
+				
+			</ul>
+		</div>
+		
+		<form th:action="@{|/answer/create/${question.id}|}" method="post">
+			<div class="form-group">
+				<textarea name="content" id="content" cols="30" rows="10" class="form-control"></textarea><br /><br />
+			</div>
+			<input type="submit" value="답변 등록하기" class="btn btn-warning text-white p-3"/>
+		</form>
+</div>
