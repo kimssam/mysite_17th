@@ -11,4 +11,6 @@ public class MainController {
 	public String index() {
 		return "킴쌤 클래스에 오신것을 환영합니다!!";
 	}
+	
+	
 }
