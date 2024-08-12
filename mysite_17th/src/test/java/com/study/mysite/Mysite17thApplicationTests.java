@@ -1,28 +1,21 @@
 package com.study.mysite;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.study.mysite.answer.Answer;
 import com.study.mysite.answer.AnswerRepository;
-import com.study.mysite.question.Question;
 import com.study.mysite.question.QuestionRepository;
-
-import jakarta.transaction.Transactional;
+import com.study.mysite.question.QuestionService;
 
 @SpringBootTest
 class Mysite17thApplicationTests {
 	
 	@Autowired
 	private QuestionRepository questionRepository;//테스트 코드에서는 생성자를 통한 객체 주입방식을 지원하지 않아서 @Autowired를 사용했지만 순환참조 문제이슈가 발생할 수 있으므로 실제 코드에서는 setter나 생성자 주입방식을 사용하는 것을 권장한다.
+	
+	@Autowired
+	private QuestionService questionService;
 	
 	@Autowired
 	private AnswerRepository answerRepository;
@@ -82,7 +75,7 @@ class Mysite17thApplicationTests {
 		Question q = oq.get();
 		this.questionRepository.delete(q);
 		assertEquals(2, this.questionRepository.count());
-		*/
+		
 		
 		Optional<Question> oq = this.questionRepository.findById(7);
 		assertTrue(oq.isPresent());
@@ -94,7 +87,6 @@ class Mysite17thApplicationTests {
 		a.setCreateDate(LocalDateTime.now());
 		this.answerRepository.save(a);
 		
-		/*
 		Optional<Question> oq2 = this.questionRepository.findById(3);
 		assertTrue(oq2.isPresent());
 		Question q2 = oq2.get();
@@ -105,6 +97,11 @@ class Mysite17thApplicationTests {
 		assertEquals(1, answerList.size());
 		assertEquals("스프링부트에서 사용하는 JPA 인터페이스의 실제 구현체이다.", answerList.get(0).getContent());
 		*/
+		for(int i=1; i<=100; i++) {
+			String subject= String.format("테스트 코드를 이용하여 생성한 제목:[%03d]", i);
+			String content = String.format("테스트 코드를 이용하여 생성한 질문내용:[%03d]", i);
+			this.questionService.create(subject, content);
+		}
 		
 	}
 
