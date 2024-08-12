@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.study.mysite.answer.AnswerForm;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -36,7 +38,7 @@ public class QuestionController {
 	
 	//상세페이지로 이동
 	@GetMapping("/detail/{userid}")
-	public String detail(Model model, @PathVariable("userid") Integer id) { //Integer타입의 id 컬럼값과 연결하여 @PathVariable("변수명")으로 변경한다!!=>사용자 요청 url의 변수명으로 사용가능하다!
+	public String detail(Model model, @PathVariable("userid") Integer id, AnswerForm answerForm) { //Integer타입의 id 컬럼값과 연결하여 @PathVariable("변수명")으로 변경한다!!=>사용자 요청 url의 변수명으로 사용가능하다!
 		Question question = this.questionService.getQuestion(id);
 		model.addAttribute("question",question );
 		return "question_detail";
@@ -45,7 +47,7 @@ public class QuestionController {
 	
 	//질문 등록 페이지로 이동
 	@GetMapping("/create")
-	public String questionCreate() {
+	public String questionCreate(QuestionForm questionForm) {
 		return "question_form";
 	}
 	

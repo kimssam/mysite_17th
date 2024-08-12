@@ -31,9 +31,17 @@
 					</ul>
 				</div>
 				
-				<form th:action="@{|/answer/create/${question.id}|}" method="post">
+				<!-- 답변 작성 -->
+				<form th:action="@{|/answer/create/${question.id}|}" method="post" th:object="${answerForm}">
+					<!-- 유효성 검증 에러시 에러내용 message 출력구문 -->
+					<div th:replace="~{form_errors :: formErrorFragment}"></div>	
+					<!-- <div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+						<div th:each="err : ${#fields.allErrors()}" >[[${err}]]</div>
+					
+					</div> -->
 					<div class="form-group mb-0">
-						<textarea name="content" id="content" cols="30" rows="10" class="form-control mb-0"></textarea><br /><br />
+						<textarea name="content" id="content" cols="30" rows="10" class="form-control mb-0" th:field="*{content}"></textarea><br /><br />
+						<!-- 답변 기능의 content항목도 th:field 속성을 사용하겠다는 의미로 th:field="*{content}"를 넣는다! -->
 					</div>
 					<input type="submit" value="답변 등록하기" class="btn btn-warning text-white p-3 mt-0"/>
 				</form>
