@@ -39,6 +39,7 @@
 				    th:classappend="${page == paging.number}? 'active'"
 				    class="page-item">
 			    		<a th:href="@{|?page=${page}|}" class="page-link" href="javascript:void(0)" th:text="${page}"></a>
+			    	<!-- th:each="page: ${#numbers.sequence(시작 번호,끝 번호)}를 넣으면 정해진 범위만큼 반복을 만들어내는 타임리프의 기능이다." -->
 			    </li>
 			    <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
 			      <a href="javascript:void(0)" 
