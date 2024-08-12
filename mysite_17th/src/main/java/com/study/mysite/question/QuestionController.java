@@ -39,6 +39,12 @@ public class QuestionController {
 		return "question_detail";
 		
 	}
+	
+	//질문 등록 페이지로 이동
+	@GetMapping("/create")
+	public String questionCreate() {
+		return "question_form";
+	}
 }
 
 
