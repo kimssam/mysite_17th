@@ -15,9 +15,14 @@
 				</thead>
 				<tbody>
 					<tr th:each="question, loop : ${paging}">
-						<td th:text="${loop.count}"></td>
+						<!-- <td th:text="${loop.count}"></td> -->
+						<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
 						<td>
 							<a th:href="@{|/question/detail/${question.id}|}"  th:text="${question.subject}" class="text-warning"></a>
+							 <!-- 답변의 갯수 출력 -->
+							 <span th:if="${#lists.size(question.answerList) > 0}" 
+							 	   th:text="${#lists.size(question.answerList)}"
+							 	   class="badge badge-pill badge-info ml-2"></span>
 						</td>
 						<td th:text="${#temporals.format(question.createDate, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
 					</tr>
@@ -39,8 +44,8 @@
 				    th:classappend="${page == paging.number}? 'active'"
 				    class="page-item">
 			    		<a th:href="@{|?page=${page}|}" class="page-link" href="javascript:void(0)" th:text="${page}"></a>
-			    	<!-- th:each="page: ${#numbers.sequence(시작 번호,끝 번호)}를 넣으면 정해진 범위만큼 반복을 만들어내는 타임리프의 기능이다." -->
-			    </li>
+			    	<!-- th:each="page: ${#numbers.sequence(시작 번호,끝 번호)}를 넣으면 정해진 범위만큼 반복을 만들어내는 타임리프의 기능이다." 
+			    	#시작하는 문법: SpEL(통합 표현언어)와 타임리프 객체에 접근할 때, 또한 조건문에서도 사용하는 타임리프 문법이다. 예)#dates, #numbers, #strings, #lists, #request, #session, #local--></li>
 			    <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
 			      <a href="javascript:void(0)" 
 			      	 th:href="@{|?page=${paging.number+1}|}" class="page-link">
