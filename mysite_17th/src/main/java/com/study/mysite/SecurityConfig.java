@@ -22,13 +22,12 @@ public class SecurityConfig {
 			    .csrf((csrf) -> csrf
 		        .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
 			    .headers((headers) -> headers
-			    		.addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)));
+			    		.addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
 		// XFrameOptionsHeader 값으로 SAMEORIGIN을 설정하면 프레임에 포함된 웹 페이지가 동일한 사이트에 제공할 때만 사용이 허락된다.
-			/*.formLogin((form) -> form
-				.loginPage("/login")
-				.permitAll()
-			)
-			.logout((logout) -> logout.permitAll());*/
+			.formLogin((form) -> form
+				.loginPage("/user/login")
+				.defaultSuccessUrl("/"))
+			.logout((logout) -> logout.permitAll());
 
 		return http.build();
 	}

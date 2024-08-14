@@ -1,0 +1,29 @@
+<!-- login_form.html -->
+<html layout:decorate="~{layout}">
+	<div layout:fragment="content" class="container">
+		<div class="jumbotron">
+			<h2 class="display-4">회원 로그인</h2>
+		</div>
+		<form th:action="@{/user/login}" method="post">
+			
+			<div th:if="${param.error}">
+				<div class="alert alert-danger">
+					사용자 ID 또는 비밀번호를 확인해 주세요.
+				</div>
+			</div>
+			<div class="form-group">
+			    <label for="userid">사용자 ID</label>
+			    <input type="text" class="form-control" id="userid" name="username">
+			    <small id="userid" class="form-text text-muted">사용자 ID는 3자에서부터 30자 이내로 입력하여야 합니다.</small>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="exampleInputPassword1">비밀번호</label>
+		    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+		    <small id="userid" class="form-text text-muted">사용자 비밀번호는 꼭 입력하여야 합니다.</small>
+		  </div>
+		  
+		  <button type="submit" class="btn btn-info">로그인</button>
+		</form>
+	</div>
+</html>
