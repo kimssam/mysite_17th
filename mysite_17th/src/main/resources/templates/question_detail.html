@@ -33,6 +33,14 @@
 									<span class="badge badge-pill badge-info mr-2" th:if="${answer.author != null}">[[${answer.author.username}]]</span>
 									<span class="badge badge-pill badge-info" th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:MM')}"></span>
 								</div>
+								
+								<!-- 답변을 수정하는 버튼 -->
+								<div>
+									<a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-success" sec:authorize="isAuthenticated()" th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}" th:text="답변수정"></a>
+									
+									<a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}|}" class="btn btn-danger delete" sec:authorize="isAuthenticated()" th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}" th:text="답변삭제"></a>
+									
+								</div>
 							</div>
 						</div>
 						
