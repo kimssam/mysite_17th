@@ -28,8 +28,11 @@ public class SecurityConfig {
 			.formLogin((form) -> form
 				.loginPage("/user/login")
 				.defaultSuccessUrl("/"))
-			.logout((logout) -> logout.permitAll());
-
+			.logout((logout) -> logout
+					.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+					.logoutSuccessUrl("/")
+					.invalidateHttpSession(true));
+					//로그아웃시 생성된 사용자 세션도 삭제처리하겠다
 		return http.build();
 	}
 	

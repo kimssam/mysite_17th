@@ -3,6 +3,7 @@ package com.study.mysite.answer;
 import java.time.LocalDateTime;
 
 import com.study.mysite.question.Question;
+import com.study.mysite.user.SiteUser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,5 +28,8 @@ public class Answer {
 	private LocalDateTime createDate;
 	
 	@ManyToOne
-	private Question question; //외래키 관계 : Answer(자식:N)<-Question(부모:1) 
+	private Question question; //외래키(FK) 관계 : Answer(자식:N)<-Question(부모:1) 
+	
+	@ManyToOne
+	private SiteUser author;
 }

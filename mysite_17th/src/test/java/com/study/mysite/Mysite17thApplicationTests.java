@@ -1,10 +1,19 @@
 package com.study.mysite;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.study.mysite.answer.Answer;
 import com.study.mysite.answer.AnswerRepository;
+import com.study.mysite.question.Question;
 import com.study.mysite.question.QuestionRepository;
 import com.study.mysite.question.QuestionService;
 
@@ -77,7 +86,7 @@ class Mysite17thApplicationTests {
 		assertEquals(2, this.questionRepository.count());
 		
 		
-		Optional<Question> oq = this.questionRepository.findById(7);
+		Optional<Question> oq = this.questionRepository.findById(2);
 		assertTrue(oq.isPresent());
 		Question q = oq.get();
 		
@@ -102,6 +111,7 @@ class Mysite17thApplicationTests {
 			String content = String.format("테스트 코드를 이용하여 생성한 질문내용:[%03d]", i);
 			this.questionService.create(subject, content);
 		}
+		
 		
 	}
 
