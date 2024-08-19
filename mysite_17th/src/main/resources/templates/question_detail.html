@@ -8,9 +8,13 @@
 					<div class="card-body">
 						<h5 class="card-title text-white"><span class="small">질문내용  : </span>[[${question.content}]]
 							<span class="badge badge-pill badge-secondary float-right" th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:MM')}"></span>
+							<span class="badge badge-pill badge-secondary float-right mr-2" th:if="${question.author != null}">[[${question.author.username}]]</span>
 						</h5>
 					</div>
 				</div>
+				
+				<!-- 질문수정버튼 -->
+				<a th:href="@{|/question/modify/${question.id}|}" class="btn btn-success mt-2" sec:authorize="isAuthenticated()" th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}">질문 수정</a>
 				
 				<h4 th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|" class="my-5 border-bottom my-3 py-2"></h4>
 				<!-- ${#lists.size()는 타임리프에서 제공하는 문법으로 매개변수로 객체를 넣으면 해당 객체의 갯수를 리턴한다. -->
@@ -23,6 +27,7 @@
 								
 								<!-- 날짜를 출력하는 배지 -->
 								<div class="d-flex justify-content-end">
+									<span class="badge badge-pill badge-info mr-2" th:if="${answer.author != null}">[[${answer.author.username}]]</span>
 									<span class="badge badge-pill badge-info" th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:MM')}"></span>
 								</div>
 							</div>
@@ -40,7 +45,10 @@
 					
 					</div> -->
 					<div class="form-group mb-0">
-						<textarea name="content" id="content" cols="30" rows="10" class="form-control mb-0" th:field="*{content}"></textarea><br /><br />
+					<!-- sec:authorize="isAnonymous():현재 사용자의 로그인 상태를 체크 -->
+						<textarea sec:authorize="isAnonymous()" name="content" id="content" cols="30" rows="10" class="form-control mb-0" th:field="*{content}" disabled placeholder="로그인한 상태에서 답변 작성 가능합니다."></textarea>
+						<textarea sec:authorize="isAuthenticated()" name="content" id="content" cols="30" rows="10" class="form-control mb-0" th:field="*{content}"></textarea>
+						<br /><br />
 						<!-- 답변 기능의 content항목도 th:field 속성을 사용하겠다는 의미로 th:field="*{content}"를 넣는다! -->
 					</div>
 					<input type="submit" value="답변 등록하기" class="btn btn-warning text-white p-3 mt-0"/>

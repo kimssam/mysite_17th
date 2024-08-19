@@ -7,9 +7,10 @@
 			<!-- table>(thead>tr>th*2)+(tbody>tr>td*2) -->
 			<table class="table table-striped">
 				<thead class="table-warning">
-					<tr>
+					<tr class="text-center">
 						<th>번호</th>
 						<th>제목</th>
+						<th>글쓴이</th>
 						<th>작성일시</th>
 					</tr>
 				</thead>
@@ -23,6 +24,9 @@
 							 <span th:if="${#lists.size(question.answerList) > 0}" 
 							 	   th:text="${#lists.size(question.answerList)}"
 							 	   class="badge badge-pill badge-info ml-2"></span>
+						</td>
+						<td>
+							<span th:if="${question.author != null}">[[${question.author.username}]]</span>
 						</td>
 						<td th:text="${#temporals.format(question.createDate, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
 					</tr>

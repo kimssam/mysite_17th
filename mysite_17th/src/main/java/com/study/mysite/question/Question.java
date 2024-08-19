@@ -40,6 +40,8 @@ public class Question {
 	@ManyToOne
 	private SiteUser author;
 	//사용자 한명이 질문을 여러개 작성할 수 있으므로 다대일 관계가 성립
+	
+	private LocalDateTime modifyDate; //질문수정일시 db에서는 modify_date
 }
 
 

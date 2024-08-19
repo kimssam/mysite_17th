@@ -32,4 +32,6 @@ public class Answer {
 	
 	@ManyToOne
 	private SiteUser author;
+	
+	private LocalDateTime modifyDate; //질문수정일시 db에서는 modify_date
 }

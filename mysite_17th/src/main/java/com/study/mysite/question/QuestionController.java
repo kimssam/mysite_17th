@@ -3,6 +3,8 @@ package com.study.mysite.question;
 import java.security.Principal;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.study.mysite.answer.AnswerForm;
 import com.study.mysite.user.SiteUser;
@@ -53,6 +56,7 @@ public class QuestionController {
 	}
 	
 	//질문 등록 페이지로 이동
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/create")
 	public String questionCreate(QuestionForm questionForm) {
 		return "question_form";
@@ -64,6 +68,10 @@ public class QuestionController {
 		return "redirect:/question/list";
 	}*/
 	
+	@PreAuthorize("isAuthenticated()")
+	//isAuthenticated(인증):사용자가 누구인지 확인하는 과정
+	//Authorize(인가):인증된 사용자가 특정 자원에 접근할 수 있는 권한이 있는지 확인하는 과정
+	//@PreAuthorize("isAuthenticated()") 애너테이션이 있으면 메소드 동작시키기 전에 회원 로그인했는지 먼저 확인하고 로그인 안했으면 로그인 페이지로 보낸다.
 	@PostMapping("/create")
 	public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult,Principal principal) {
 		
@@ -74,6 +82,24 @@ public class QuestionController {
 		this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
 		return "redirect:/question/list";
 	}
+	
+	//질문을 수정하는 메소드
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/modify/{id}")
+	public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal) {
+		Question question = this.questionService.getQuestion(id);
+		if(!question.getAuthor().getUsername().equals(principal.getName())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+		}
+		questionForm.setSubject(question.getSubject());
+		questionForm.setContent(question.getContent());
+		
+		return "question_form";
+	}
+	
+	
+	
+	
 }
 
 

@@ -109,7 +109,7 @@ class Mysite17thApplicationTests {
 		for(int i=1; i<=100; i++) {
 			String subject= String.format("테스트 코드를 이용하여 생성한 제목:[%03d]", i);
 			String content = String.format("테스트 코드를 이용하여 생성한 질문내용:[%03d]", i);
-			this.questionService.create(subject, content);
+			this.questionService.create(subject, content, null);
 		}
 		
 		

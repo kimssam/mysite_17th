@@ -2,9 +2,12 @@
 <html layout:decorate="~{layout}">
 	<div layout:fragment="content" class="container">
 		<h5 class="my-5 border-bottom pb-2 display-4">질문등록</h5>
-		<form th:action="@{/question/create}" method="post" th:object="${questionForm}">
+		<!-- <form th:action="@{/question/create}" method="post" th:object="${questionForm}"> -->
+		<form method="post" th:object="${questionForm}">
 		<!-- 오류를 표시하려면 타임리프의 th:object 속성이 꼭 필요하다. 역할은 <form>의 입력항목들이 QuestionForm 클래스와 연결된다는 점을 타임리프에 알려주는 역할을 한다!! 그런데, th:object 속성을 추가하면 @GetMpping한 메서드도 변경해야 오류가 발생하지 않는다!! -->
 		
+		  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+		  <!-- th:action="@{/question/create}"을 삭제하면 CSRF값이 자동으로 생성되지 않아서 CSRF값을 수동으로 설정하기 위해 hidden으로 만들어 가져간다. 그리고 th:action이 없더라도 post로 폼 전송시에 action속성이 자동설정된다!!-->
 		  <div th:replace="~{form_errors :: formErrorFragment}"></div>	
 		  <!-- <div th:if="${#fields.hasAnyErrors()}">
 		  	<div th:each="err : ${#fields.allErrors()}" th:text="${err}"  class="alert alert-danger"></div>	

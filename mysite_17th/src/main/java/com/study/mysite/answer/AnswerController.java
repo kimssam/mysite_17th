@@ -2,6 +2,7 @@ package com.study.mysite.answer;
 
 import java.security.Principal;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,7 @@ public class AnswerController {
 	private final AnswerService answerService;
 	private final UserService userService;
 	
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create/{questionId}")
 	public String createAnswer(Model model, @PathVariable("questionId") Integer id, @Valid AnswerForm answerForm, BindingResult bindingResult, Principal principal) {
 		//현재 로그인 한 사용자의 정보를 알려면 스프링 시큐리티가 제공하는 Principal(본인) 객체를 사용해야 한다.Principal의 getName()를 이용하면 현재 로그인한 사용자ID를 알 수 있다.
