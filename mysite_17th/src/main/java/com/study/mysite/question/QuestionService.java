@@ -34,6 +34,8 @@ public class QuestionService {
 		}
 	}
 	
+	
+	
 	public void create(String subject, String content, SiteUser user) {
 		Question q = new Question();
 		q.setSubject(subject);
@@ -43,6 +45,9 @@ public class QuestionService {
 		this.questionRepository.save(q);
 	}
 	
+	
+	
+	
 	public Page<Question> getList(int page){
 		//최신순으로 정렬
 		List<Sort.Order> sorts= new ArrayList<>();
@@ -50,6 +55,19 @@ public class QuestionService {
 		Pageable pageable = PageRequest.of(page, 5,Sort.by(sorts));
 		return this.questionRepository.findAll(pageable);
 	}
+	
+	
+	public void modify(Question question, String subject, String content) {
+		question.setSubject(subject);
+		question.setContent(content);
+		question.setModifyDate(LocalDateTime.now());
+		this.questionRepository.save(question);
+	}
+	
+	public void delete(Question question) {
+		this.questionRepository.delete(question);
+	}
+	
 }
 
 

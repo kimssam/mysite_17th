@@ -16,6 +16,9 @@
 				<!-- 질문수정버튼 -->
 				<a th:href="@{|/question/modify/${question.id}|}" class="btn btn-success mt-2" sec:authorize="isAuthenticated()" th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}">질문 수정</a>
 				
+				<!-- 질문삭제버튼 -->
+				<a href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}" class="delete btn btn-danger mt-2" sec:authorize="isAuthenticated()" th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}">질문 삭제</a>
+				
 				<h4 th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|" class="my-5 border-bottom my-3 py-2"></h4>
 				<!-- ${#lists.size()는 타임리프에서 제공하는 문법으로 매개변수로 객체를 넣으면 해당 객체의 갯수를 리턴한다. -->
 				
@@ -55,4 +58,26 @@
 				</form>
 		</div>
 	</div>
+	<script layout:fragment="script" type="text/javascript">
+		const delete_elements = document.getElementsByClassName("delete");
+		Array.from(delete_elements).forEach(function(element){
+			element.addEventListener("click",function(){
+				if(confirm("정말로 삭제하시겠습니까?")){
+					location.href=this.dataset.uri;
+				}
+			})
+		})
+	</script>
 </html>		
+
+
+
+
+
+
+
+
+
+
+
+
