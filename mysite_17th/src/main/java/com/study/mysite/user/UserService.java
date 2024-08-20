@@ -2,6 +2,7 @@ package com.study.mysite.user;
 
 import java.util.Optional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +21,8 @@ public class UserService {
 		SiteUser user = new SiteUser();
 		user.setUsername(username);
 		user.setEmail(email);
-//		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		//user.setPassword(passwordEncoder.encode(password));
-		user.setPassword(password);
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(passwordEncoder.encode(password));
 		this.userRepository.save(user);
 		return user;
 	}

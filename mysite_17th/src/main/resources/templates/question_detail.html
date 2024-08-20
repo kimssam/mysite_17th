@@ -7,7 +7,12 @@
 				<div class="card bg-warning">
 					<div class="card-body">
 						<h5 class="card-title text-white"><span class="small">질문내용  : </span>[[${question.content}]]
-							<span class="badge badge-pill badge-secondary float-right" th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:MM')}"></span>
+							
+							<!-- 등록날짜 -->
+							<span class="badge badge-pill badge-secondary float-right" th:text="${#temporals.format(question.createDate, '등록날짜 yyyy-MM-dd HH:mm')}"></span>
+							
+							<!-- 수정날짜 -->
+							<span class="badge badge-pill badge-secondary float-right mr-2" th:text="${#temporals.format(question.modifyDate, '수정날짜 yyyy-MM-dd HH:mm')}"></span>
 							<span class="badge badge-pill badge-secondary float-right mr-2" th:if="${question.author != null}">[[${question.author.username}]]</span>
 						</h5>
 					</div>
@@ -31,7 +36,8 @@
 								<!-- 날짜를 출력하는 배지 -->
 								<div class="d-flex justify-content-end">
 									<span class="badge badge-pill badge-info mr-2" th:if="${answer.author != null}">[[${answer.author.username}]]</span>
-									<span class="badge badge-pill badge-info" th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:MM')}"></span>
+									<span class="badge badge-pill badge-info mr-2" th:text="${#temporals.format(answer.modifyDate, '수정날짜 yyyy-MM-dd HH:mm')}"></span>
+									<span class="badge badge-pill badge-info" th:text="${#temporals.format(answer.createDate, '등록날짜 yyyy-MM-dd HH:mm')}"></span>
 								</div>
 								
 								<!-- 답변을 수정하는 버튼 -->
