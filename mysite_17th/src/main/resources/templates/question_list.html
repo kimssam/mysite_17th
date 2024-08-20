@@ -4,6 +4,18 @@
 			<div class="jumbotron">
 				<h2 class="display-4">게시판 목록</h2>
 			</div>
+			
+			
+			<div class="row">
+				
+				<!-- 질문등록 버튼 -->
+				<a th:href="@{/question/create}" class="ml-3 mb-3 btn btn-warning text-white">질문 등록하기</a>
+				<div class="col float-right d-flex justify-content-end mb-3">
+					 <input id="search_kw" class="form-control mr-sm-2 col-4" type="search" placeholder="Search" aria-label="Search" th:value="${kw}">
+	      <button class="btn btn-outline-success my-2 my-sm-0 mr-3" type="submit" id="btn_search">검색</button>
+				</div>
+			</div>
+			
 			<!-- table>(thead>tr>th*2)+(tbody>tr>td*2) -->
 			<table class="table table-striped">
 				<thead class="table-warning">
@@ -37,8 +49,12 @@
 			<nav th:if="${!paging.isEmpty()}">
 			  <ul class="pagination justify-content-center">
 			    <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-			      <a href="javascript:void(0)" 
+			      <!-- <a href="javascript:void(0)" 
 			      	 th:href="@{|?page=${paging.number-1}|}" class="page-link">
+			      	<span>이전</span>
+			      </a> -->
+			      <a href="javascript:void(0)" 
+			      	 th:data-page="${paging.number-1}" class="page-link">
 			      	<span>이전</span>
 			      </a>
 			    </li>
@@ -47,24 +63,27 @@
 				    th:if="${page >= paging.number-2 and page <= paging.number+2}"
 				    th:classappend="${page == paging.number}? 'active'"
 				    class="page-item">
-			    		<a th:href="@{|?page=${page}|}" class="page-link" href="javascript:void(0)" th:text="${page}"></a>
+			    		<a th:data-page="${page}" class="page-link" href="javascript:void(0)" th:text="${page}"></a>
 			    	<!-- th:each="page: ${#numbers.sequence(시작 번호,끝 번호)}를 넣으면 정해진 범위만큼 반복을 만들어내는 타임리프의 기능이다." 
 			    	#시작하는 문법: SpEL(통합 표현언어)와 타임리프 객체에 접근할 때, 또한 조건문에서도 사용하는 타임리프 문법이다. 예)#dates, #numbers, #strings, #lists, #request, #session, #local--></li>
 			    <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-			      <a href="javascript:void(0)" 
+			      <!-- <a href="javascript:void(0)" 
 			      	 th:href="@{|?page=${paging.number+1}|}" class="page-link">
+			      	<span>다음</span>
+			      </a> -->
+			      <a href="javascript:void(0)" 
+			      	  class="page-link" th:data-page="${paging.number+1}">
 			      	<span>다음</span>
 			      </a>
 			    </li>
 			  </ul>
 			</nav>
 			
-			
-			
-			
-			
 			<!-- 질문등록 버튼 -->
-			<a th:href="@{/question/create}" class="btn btn-warning text-white">질문 등록하기</a>
+			<form th:action="@{/question/list}" method="get" id="searchForm">
+				<input type="hidden" id="kw" th:value="${kw}">
+				<input type="hidden" id="page" th:value="${paging.number}"/>
+			</form>
 		</div>	
 	</div>
 </html>

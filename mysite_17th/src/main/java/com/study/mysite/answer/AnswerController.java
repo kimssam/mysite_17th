@@ -41,8 +41,8 @@ public class AnswerController {
 			model.addAttribute("question", question);
 			return "question_detail";
 		}
-		this.answerService.create(question, answerForm.getContent(),siteUser);
-		return String.format("redirect:/question/detail/%s", id);
+		Answer answer = this.answerService.create(question, answerForm.getContent(),siteUser);
+		return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
 	}
 	
 	@PreAuthorize("isAuthenticated()")
@@ -68,7 +68,7 @@ public class AnswerController {
 	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 	        }
 	        this.answerService.modify(answer, answerForm.getContent());
-	        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+	        return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
 	    }
 	 
 	 
@@ -93,7 +93,7 @@ public class AnswerController {
 			this.answerService.vote(answer, siteUser);
 			//db에 저장
 			
-			return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+			return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(),answer.getId());
 			
 		}
 	

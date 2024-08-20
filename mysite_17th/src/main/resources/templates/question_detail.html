@@ -6,7 +6,12 @@
 				</div>
 				<div class="card bg-warning">
 					<div class="card-body">
-						<h5 class="card-title text-white"><span class="small">질문내용  : </span>[[${question.content}]]
+						<h5 class="card-title text-white"><span class="small">질문내용  : </span><!-- [[${question.content}]] -->
+						
+							<!-- 마크다운 사용가능 로직 : th:utext 문법은 화면에 이스케이프 처리(unescaped)를 하지 않고 출력해준다.-->
+							
+							<div th:utext="${@commonUtil.markdown(question.content)}"></div>
+							
 							
 							<!-- 등록날짜 -->
 							<span class="badge badge-pill badge-secondary float-right" th:text="${#temporals.format(question.createDate, '등록날짜 yyyy-MM-dd HH:mm')}"></span>
@@ -32,7 +37,11 @@
 				<div>
 					<ul class="list-unstyled">
 						<div class="card bg-light my-3"  th:each="answer : ${question.answerList}">
+							<!-- 앵커기능 -->
+							<a th:id="|answer_${answer.id}|"></a>
+						
 							<div class="card-body">
+								
 								<li>[[${answer.content}]]</li>
 								
 								<!-- 날짜를 출력하는 배지 -->

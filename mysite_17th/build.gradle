@@ -31,8 +31,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-	
-	
+	implementation 'org.commonmark:commonmark:0.18.0'
+
 }
 
 tasks.named('test') {
