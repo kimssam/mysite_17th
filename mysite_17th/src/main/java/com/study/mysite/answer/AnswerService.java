@@ -50,6 +50,11 @@ public class AnswerService {
 		this.answerRepository.delete(answer);
 	}
 	
+	public void vote(Answer answer, SiteUser siteUser) {
+		answer.getVoter().add(siteUser);
+		this.answerRepository.save(answer);
+	}
+	
 }
 
 

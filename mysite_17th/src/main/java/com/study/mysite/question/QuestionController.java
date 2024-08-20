@@ -127,8 +127,7 @@ public class QuestionController {
 		return "redirect:/";
 	}
 	
-	//좋아요 클릭시
-	
+	//좋아요 클릭시	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/vote/{id}")
 	public String questionVote(Principal principal, @PathVariable("id") Integer id) {

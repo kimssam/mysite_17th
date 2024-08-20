@@ -42,8 +42,12 @@
 									<span class="badge badge-pill badge-info" th:text="${#temporals.format(answer.createDate, '등록날짜 yyyy-MM-dd HH:mm')}"></span>
 								</div>
 								
+								<div class="mt-3">
+								<!-- 좋아요 추천 버튼 -->
+								<a href="javascript:void(0);" class="btn border recommend" th:data-uri="@{|/answer/vote/${answer.id}|}">👍좋아요 <span class="badge bg-success text-white">[[${#lists.size(answer.voter)}]]</span></a>
+								<!--#lists : 타임리프 확장문법으로 타임리프에서 제공하는 유틸리티 객체를 표현하는 문법이다. #dates, #strings, #lists, #numbers, #maps 이런 다양한 객체들의 다양한 메소드를 사용할 수 있는 문법이다. -->
 								<!-- 답변을 수정하는 버튼 -->
-								<div>
+								
 									<a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-success" sec:authorize="isAuthenticated()" th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}" th:text="답변수정"></a>
 									
 									<a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}|}" class="btn btn-danger delete" sec:authorize="isAuthenticated()" th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}" th:text="답변삭제"></a>
