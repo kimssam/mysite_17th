@@ -18,6 +18,8 @@
 					</div>
 				</div>
 				
+				<!-- 좋아요 추천 버튼 -->
+				<a href="javascript:void(0);" class="btn border mt-2 recommend" th:data-uri="@{|/question/vote/${question.id}|}">👍좋아요 <span class="badge bg-success">[[${#lists.size(question.voter)}]]</span></a>
 				<!-- 질문수정버튼 -->
 				<a th:href="@{|/question/modify/${question.id}|}" class="btn btn-success mt-2" sec:authorize="isAuthenticated()" th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}">질문 수정</a>
 				
@@ -77,6 +79,15 @@
 		Array.from(delete_elements).forEach(function(element){
 			element.addEventListener("click",function(){
 				if(confirm("정말로 삭제하시겠습니까?")){
+					location.href=this.dataset.uri;
+				}
+			})
+		})
+		
+		const recommend_elements = document.getElementsByClassName("recommend");
+		Array.from(recommend_elements).forEach(function(element){
+			element.addEventListener("click",function(){
+				if(confirm("정말로 추천하시겠습니까?")){
 					location.href=this.dataset.uri;
 				}
 			})
