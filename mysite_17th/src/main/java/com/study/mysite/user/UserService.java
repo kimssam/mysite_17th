@@ -22,7 +22,7 @@ public class UserService {
 	
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
-	private static final String UPLOAD_DIR = "img/";
+	private static final String UPLOAD_DIR = "src/main/resources/static/img/user/";
 	
 	public SiteUser create(String username, String email, String password, MultipartFile imageFile) throws IOException {
 		SiteUser user = new SiteUser();
@@ -42,7 +42,7 @@ public class UserService {
 			//파일 저장
 			Files.write(filePath,imageFile.getBytes());
 			//사용자 엔티티에 이미지 경로 설정
-			user.setImageUrl("img/"+fileName);
+			user.setImageUrl("/img/user/"+fileName);
 		}
 		
 		this.userRepository.save(user);
