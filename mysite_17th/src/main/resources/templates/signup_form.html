@@ -4,7 +4,7 @@
 		<div class="jumbotron">
 			<h2 class="display-4">회원 가입</h2>
 		</div>
-		<form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
+		<form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post" enctype="multipart/form-data">
 			<div th:replace="~{form_errors :: formErrorFragment}"></div>
 			
 			<div class="form-group">
@@ -30,6 +30,14 @@
 		    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" th:field="*{email}">
 		    <small id="emailHelp" class="form-text text-muted">이메일 양식에 맞게 입력해주세요</small>
 		  </div>
+		  
+		  <div class="form-group">
+		    <label for="imageFile">사용자 프로필 등록(옵션)</label>
+		    <input type="file" class="form-control" id="imageFile" name="imageFile">
+		    <small id="filelHelp" class="form-text text-muted">사용자 프로필을 등록해주세요.</small>
+		  </div>
+		  
+		  
 		  
 		  <button type="submit" class="btn btn-primary">가입 신청</button>
 		</form>

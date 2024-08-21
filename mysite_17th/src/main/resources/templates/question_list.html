@@ -81,8 +81,8 @@
 			
 			<!-- 질문등록 버튼 -->
 			<form th:action="@{/question/list}" method="get" id="searchForm">
-				<input type="text" id="kw" th:value="${kw}" name="kw">
-				<input type="text" id="page" th:value="${paging.number}" name="page"/>
+				<input type="hidden" id="kw" th:value="${kw}" name="kw">
+				<input type="hidden" id="page" th:value="${paging.number}" name="page"/>
 			</form>
 		</div>	
 	</div>

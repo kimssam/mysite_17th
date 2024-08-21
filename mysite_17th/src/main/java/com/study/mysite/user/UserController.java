@@ -1,12 +1,16 @@
 package com.study.mysite.user;
 
-import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +22,17 @@ public class UserController {
 	private final UserService userService;
 	
 	@GetMapping("/signup")
-	public String signup(UserCreateForm userCreateForm) {
+	public String signup(UserCreateForm userCreateForm, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+		if(userDetails != null) {
+			SiteUser user = userService.getUser(userDetails.getUsername());
+			model.addAttribute("profileImage",user.getImageUrl());
+		}
+		
 		return "signup_form";
 	}
 	
 	@PostMapping("/signup")
-	public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
+	public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult, @RequestParam("imageFile") MultipartFile imageFile) {
 		
 		if(bindingResult.hasErrors()) {
 			return "signup_form";
@@ -36,7 +45,7 @@ public class UserController {
 		}
 		
 		try {
-			userService.create(userCreateForm.getUsername(), 			userCreateForm.getEmail(), userCreateForm.getPassword1());
+			userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(), userCreateForm.getPassword1(), imageFile);
 			
 		}catch(DataIntegrityViolationException e) {
 			//DataIntegrityViolationException : unique으로 설정한 값에 같은 데이터가 들어갈 때 발생하는 예외 클래스

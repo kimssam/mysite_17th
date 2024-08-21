@@ -5,6 +5,8 @@ import java.security.Principal;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,7 +37,14 @@ public class QuestionController {
 	
 	//게시판 리스트로 이동
 	@GetMapping("/list")
-	public String list(Model model, @RequestParam(value="page",defaultValue="0") int page, @RequestParam(value="kw",defaultValue="") String kw) {
+	public String list(Model model, @RequestParam(value="page",defaultValue="0") int page, @RequestParam(value="kw",defaultValue="") String kw, @AuthenticationPrincipal UserDetails userDetails) {
+		
+		if(userDetails != null) {
+			SiteUser user = userService.getUser(userDetails.getUsername());
+			model.addAttribute("profileImage",user.getImageUrl());
+		}
+		
+		
 //		List<Question> questionList = this.questionRepository.findAll();
 		/*List<Question> questionList = this.questionService.getList();*/
 		Page<Question> paging = this.questionService.getList(page, kw);
@@ -49,7 +58,14 @@ public class QuestionController {
 	
 	//상세페이지로 이동
 	@GetMapping("/detail/{userid}")
-	public String detail(Model model, @PathVariable("userid") Integer id, AnswerForm answerForm) { //Integer타입의 id 컬럼값과 연결하여 @PathVariable("변수명")으로 변경한다!!=>사용자 요청 url의 변수명으로 사용가능하다!
+	public String detail(Model model, @PathVariable("userid") Integer id, AnswerForm answerForm, @AuthenticationPrincipal UserDetails userDetails) { //Integer타입의 id 컬럼값과 연결하여 @PathVariable("변수명")으로 변경한다!!=>사용자 요청 url의 변수명으로 사용가능하다!
+		
+		if(userDetails != null) {
+			SiteUser user = userService.getUser(userDetails.getUsername());
+			model.addAttribute("profileImage",user.getImageUrl());
+		}
+		
+		
 		Question question = this.questionService.getQuestion(id);
 		model.addAttribute("question",question );
 		return "question_detail";
