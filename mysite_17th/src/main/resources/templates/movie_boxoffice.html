@@ -5,10 +5,94 @@
 		<div class="jumbotron text-center">
 			<h1>일별 영화 박스 오피스</h1>
 		</div>
+		<!-- <div id="result">
+			결과
+		</div> -->
+		<table class="table table-hover">
+		  <thead>
+		    <tr>
+		      <th scope="col">박스오피스 순위</th>
+		      <th scope="col">영화명</th>
+		      <th scope="col">개봉일</th>
+		      <th scope="col">누적관객수</th>
+		      <th scope="col">누적매출액</th>
+		    </tr>
+		  </thead>
+		  <tbody class="table-body">
+		    <!-- ajax요청으로 가져온 데이터 넣을 부분 -->
+		  </tbody>
+		</table>
 	</div>
 	<script layout:fragment="script">
 		$(function(){
-			alert("test");
+			let result = $("#result");
+			//result.load("https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=82ca741a2844c5c180a208137bb92bd7&targetDt=20240819")
+			let today = getDate();
+			console.log("1.getDate()리턴값:"+today)
+			let urlValue="https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=82ca741a2844c5c180a208137bb92bd7&targetDt="+today
+			
+			$(window).on("load",function(){
+				getJSON();
+			})
+			
+			function getJSON(){
+				//ajax를 이용해서 비동기 HTTP GET요청을 보내겠다.
+				$.ajax({
+					type:"get",
+					url:urlValue,
+					dataType:"json",
+					success:function(data){
+						console.log("통신 성공!");
+						console.log("2.data 출력값:"+data);
+						console.log("3.data의  boxOfficeResult 속성 출력값:"+data.boxOfficeResult)
+						console.log("4.data의  dailyBoxOfficeList 속성 출력값:"+data.boxOfficeResult.dailyBoxOfficeList[0].movieNm)
+						let list = data.boxOfficeResult.dailyBoxOfficeList;
+						let str ="";
+						$.each(list, function(i){
+							str+=`
+								<tr>
+									<td>${list[i].rank}</td>
+									<td>${list[i].movieNm}</td>
+									<td>${list[i].openDt}</td>
+									<td>${list[i].audiAcc}</td>
+									<td>${list[i].salesAcc}</td>
+								</tr>
+							`
+						})
+						
+						$(".table-body").append(str)	
+						
+						
+						
+						
+						
+						
+					},
+					error:function(){
+						console.log("통신에러")
+					}
+				});
+			}
+			
+			function getDate(){
+				let date = new Date();
+				let yyyy=date.getFullYear();
+				let mm = date.getMonth()+1;
+				let dd = date.getDate()-2;
+				
+				if(mm<10) mm="0"+mm;
+				if(dd<10) dd="0"+dd;
+				
+				return yyyy+""+mm+""+dd
+			}
+			
+			
+			
+			
+			
+			
+			
+			
 		})
 	</script>
 </html>

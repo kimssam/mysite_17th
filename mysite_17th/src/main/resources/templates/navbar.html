@@ -13,7 +13,7 @@
       <li class="nav-item active">
         <a class="nav-link text-white" th:href="@{/question/list}">게시판<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item" sec:authorize="isAnonymous()">
+      <li class="nav-item">
       <!-- isAnonymous()의 메소드로 리턴받은 값이 참이면 로그인하지 않은 상태이므로 로그인 메뉴가 보인다. -->
         <a class="nav-link text-white" th:href="@{/boxoffice}">쉬어가기</a>
       </li>
