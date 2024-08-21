@@ -34,5 +34,10 @@ public class MainController {
 		return "index";
 	}
 	
+	@GetMapping("/boxoffice")
+	public String movie(){
+		return "movie_boxoffice";
+	}
+	
 	
 }
